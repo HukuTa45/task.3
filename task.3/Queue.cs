@@ -1,33 +1,71 @@
-﻿namespace task3
+﻿using System;
+
+
+namespace task._3
 {
     public class Queue
     {
-        private readonly QueueElementCollection _queueElement;
+        private Element _first;
+        private Element _last;
 
         public Queue()
         {
-            _queueElement = new QueueElementCollection();
+            Count = 0;
         }
 
-        public int Count
+        public int Count { get; private set; }
+
+        public Element Peek()
         {
-            get => _queueElement.Count;
-            private set { }
+            if (_first == null)
+                throw new NullReferenceException();
+            
+            return _first;
+
         }
 
         public void Enqueue(int value)
         {
-            _queueElement.AddLast(value);
+            if (Count == 0)
+            {
+                AddFirst(value);
+                return;
+            }
+
+            var newEnd = new Element
+            {
+                Next = null,
+                
+                Value = value
+            };
+
+            _last.Next = newEnd;
+            _last = newEnd;
+
+            Count++;
         }
 
-        public int Dequeue()
+        public void AddFirst(int value)
         {
-            return _queueElement.DeleteElement(0).Value;
+            _first = new Element
+            {
+                Value = value,
+                Next = null,
+               
+            };
+            _last = _first;
+
+            Count++;
         }
 
-        public int Peek()
+        public Element Dequeue()
         {
-            return _queueElement.GetElement(0).Value;
+            var element = _first;
+            
+            _first = _first.Next;
+            Count--;
+
+            return element;
         }
     }
 }

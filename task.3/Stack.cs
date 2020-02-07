@@ -1,35 +1,71 @@
-﻿using task._3;
+﻿using System;
 
-namespace task3
+namespace task._3
 {
     public class Stack
     {
-        private readonly StackElementCollection _stackElement;
+        private Element _last;
 
+        
         public Stack()
         {
-            _stackElement = new StackElementCollection();
+            Count = 0;
+            MaxCount = 3;
         }
+        public int MaxCount { get; set; }
+        public int Count { get; private set; }
 
-        public int Count
+        public Element Peek()
         {
-            get => _stackElement.Count;
-            private set { }
+            if (_last == null)
+                throw new NullReferenceException();
+
+            return _last;
         }
 
         public void Push(int value)
         {
-            _stackElement.AddLast(value);
+            if (Count == 0)
+            {
+                AddFirst(value);
+                return;
+            }
+
+            var newEnd = new Element
+            {
+                Next = _last,
+                
+                Value = value
+            };
+
+
+            _last = newEnd;
+
+            Count++;
+            
+            
         }
 
-        public int Pop()
+        public void AddFirst(int value)
         {
-            return _stackElement.DeleteElement(Count).Value;
+            _last = new Element
+            {
+                Value = value,
+                Next = null,
+                
+            };
+
+            Count++;
         }
 
-        public int Peek()
+        public Element Pop()
         {
-            return _stackElement.GetElement(Count).Value;
+            var element = _last;
+
+            _last = _last.Next;
+            Count--;
+
+            return element;
         }
     }
 }
