@@ -2,34 +2,32 @@
 
 namespace task3
 {
-    public class Element
+    public class QueueElement
     {
         public int Value { get; set; }
-        public Element Next { get; set; }
-        public Element Previous { get; set; }
+        public QueueElement Next { get; set; }
+        public QueueElement Previous { get; set; }
     }
 
-    public class ElementCollection
+    public class QueueElementCollection
     {
-        private Element _first;
-        private Element _last;
+        private QueueElement _first;
+        private QueueElement _last;
 
-        public ElementCollection()
+        public QueueElementCollection()
         {
             Count = 0;
         }
 
         public int Count { get; private set; }
 
-        public Element GetElement(int index)
+        public QueueElement GetElement(int index)
         {
             if (index > Count)
                 throw new IndexOutOfRangeException();
+            
+            return _first;
 
-            var current = _first;
-            for (var i = 1; i < index; i++) current = current.Next;
-
-            return current;
         }
 
         public void AddLast(int value)
@@ -40,7 +38,7 @@ namespace task3
                 return;
             }
 
-            var newEnd = new Element
+            var newEnd = new QueueElement
             {
                 Next = null,
                 Previous = _last,
@@ -55,7 +53,7 @@ namespace task3
 
         public void AddFirst(int value)
         {
-            _first = new Element
+            _first = new QueueElement
             {
                 Value = value,
                 Next = null,
@@ -66,23 +64,11 @@ namespace task3
             Count++;
         }
 
-        public Element DeleteElement(int index)
+        public QueueElement DeleteElement(int index)
         {
             var element = GetElement(index);
-            if (element == null)
-                throw new IndexOutOfRangeException();
-
-            if (element.Previous != null)
-                element.Previous.Next = element.Next;
-            else
-                _first = element.Next;
-
-            if (element.Next != null)
-                element.Next.Previous = element.Previous;
-            else
-                _last = element.Previous;
-            element.Next = null;
-            element.Previous = null;
+            
+            _first = _first.Next;
             Count--;
 
             return element;
