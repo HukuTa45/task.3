@@ -2,11 +2,11 @@
 {
     public class Queue
     {
-        private readonly ElementCollection _queueElement;
+        private readonly QueueElementCollection _queueElement;
 
         public Queue()
         {
-            _queueElement = new ElementCollection();
+            _queueElement = new QueueElementCollection();
         }
 
         public int Count

@@ -1,12 +1,14 @@
-﻿namespace task3
+﻿using task._3;
+
+namespace task3
 {
     public class Stack
     {
-        private readonly ElementCollection _stackElement;
+        private readonly StackElementCollection _stackElement;
 
         public Stack()
         {
-            _stackElement = new ElementCollection();
+            _stackElement = new StackElementCollection();
         }
 
         public int Count
